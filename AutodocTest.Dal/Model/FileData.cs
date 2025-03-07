@@ -10,9 +10,15 @@ namespace AutodocTest.Dal.Model;
 public class FileData : BaseEntity
 {
     [Required]
-    public virtual TaskInfo TaskInfo { get; set; } = null!;
+    public TaskInfo TaskInfo { get; set; } = null!;
 
     [Required]
     [StringLength(50)]
     public string Name { get; set; } = null!;
+
+    [Required]
+    [Column(TypeName = "varbinary(MAX)")]
+    public byte[] Body { get; set; } = null!;
 }
+
+

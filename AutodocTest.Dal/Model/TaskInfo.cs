@@ -17,5 +17,5 @@ public class TaskInfo : BaseEntity
     [StringLength(50)]
     public string State { get; set; } = null!;
 
-    public virtual List<FileData> Files { get; set; } = null!;
+    public virtual ICollection<FileData> Files { get; set; } = new List<FileData>();
 }

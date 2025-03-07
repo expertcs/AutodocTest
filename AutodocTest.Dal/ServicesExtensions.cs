@@ -1,4 +1,6 @@
-﻿using AutodocTest.Dal.DataAccess;
+﻿using System.Diagnostics;
+
+using AutodocTest.Dal.DataAccess;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,5 +18,6 @@ public static class ServicesExtensions
         {
             var cs = config.GetConnectionString(name);
             options.UseSqlServer(cs);
+            options.LogTo(s => Debug.WriteLine(s));
         });
 }

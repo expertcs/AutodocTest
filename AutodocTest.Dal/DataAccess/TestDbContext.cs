@@ -15,7 +15,10 @@ public class TestDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<FileBody>();
+        //modelBuilder.Entity<FileBody>(b =>
+        //{
+        //    b.HasOne(x => x.File).WithOne().HasForeignKey<FileData>(x => x.Id);
+        //});
         base.OnModelCreating(modelBuilder);
     }
 }

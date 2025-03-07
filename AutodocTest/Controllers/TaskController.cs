@@ -39,10 +39,12 @@ public class TaskController : ControllerBase
     [HttpGet]
     public Task<TaskInfo[]> GetTaskList([FromQuery] PageInfo? page, CancellationToken token)
     {
+        if (page?.Start == 0 && page?.Count == 0)
+            page = null;
         return _taskService.GetTaskList(page, token);
     }
 
-    [HttpPut]
+    [HttpPut("{id}/{name}/{state}")]
     public Task<IActionResult> UpdateTask([FromRoute] int id, [FromRoute] string name, [FromRoute] string state, CancellationToken token)
     {
         var task = new TaskInfo { Id = id, Name = name, State = state };

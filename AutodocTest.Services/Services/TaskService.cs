@@ -14,7 +14,19 @@ internal class TaskService : ITaskService
     }
 
     private IQueryable<TaskInfo> GetQuery()
-        => _dbContext.Set<TaskInfo>().Include(x => x.Files).AsNoTracking();
+        => _dbContext
+        .Set<TaskInfo>()
+        .Select(x => new TaskInfo
+        {
+            Id = x.Id,
+            Name = x.Name,
+            State = x.State,
+            Files = x.Files.Select(f => new FileData
+            {
+                Id = f.Id,
+                Name = f.Name
+            }).ToArray()
+        });
 
     public Task<TaskInfo[]> GetTaskList(PageInfo? page, CancellationToken token)
     {

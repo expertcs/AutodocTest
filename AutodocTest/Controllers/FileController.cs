@@ -21,18 +21,21 @@ public class FileController : ControllerBase
         _contentTypeProvider = contentTypeProvider;
     }
 
-
-
     [HttpPost("{taskId}")]
-    public async Task<IActionResult> AddFile([FromRoute] int taskId, [FromForm] FormFile formFile, CancellationToken token)
+    public async Task<IActionResult> AddFile([FromRoute] int taskId, IFormFile formFile, CancellationToken token)
     {
-        var file = new FileBody
+        var task = new TaskInfo { Id = taskId };
+        var fileBody = new FileBody
         {
-            Name = formFile.Name,
             Body = await formFile.GetBytes(token),
-            TaskInfo = new TaskInfo { Id = taskId }
+            //TaskInfo = task,
+            File = new FileData
+            {
+                TaskInfo = task,
+                Name = formFile.FileName,
+            }
         };
-        return await _fileService.AddFile(file, token).GetActionResult();
+        return await _fileService.AddFile(fileBody, token).GetActionResult();
     }
 
     [HttpDelete("{id}")]
@@ -45,7 +48,7 @@ public class FileController : ControllerBase
         var file = await _fileService.GetFile(id, token);
         if (file == null)
             return NotFound();
-        _contentTypeProvider.TryGetContentType(file.Name, out var contentType);
+        _contentTypeProvider.TryGetContentType(file.File.Name, out var contentType);
         return File(file.Body, contentType ?? "application/octet-stream");
     }
 }
