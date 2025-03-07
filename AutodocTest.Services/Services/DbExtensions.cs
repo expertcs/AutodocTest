@@ -28,8 +28,6 @@ internal static class DbExtensions
     public static Task<int> DeleteEntity<T>(this DbContext dbContext, int id, CancellationToken token)
         where T : BaseEntity, new()
     {
-        var entity = new T { Id = id };
-        dbContext.Entry(entity).State = EntityState.Deleted;
-        return dbContext.SaveChangesAsync(token);
+        return dbContext.Set<T>().Where(x => x.Id == id).ExecuteDeleteAsync(token);
     }
 }

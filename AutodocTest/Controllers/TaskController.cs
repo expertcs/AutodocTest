@@ -36,7 +36,7 @@ public class TaskController : ControllerBase
         return Ok(task);
     }
 
-    [HttpGet]
+    [HttpGet("list")]
     public Task<TaskInfo[]> GetTaskList([FromQuery] PageInfo? page, CancellationToken token)
     {
         if (page?.Start == 0 && page?.Count == 0)

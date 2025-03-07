@@ -26,7 +26,8 @@ internal class TaskService : ITaskService
                 Id = f.Id,
                 Name = f.Name
             }).ToArray()
-        });
+        })
+        ;
 
     public Task<TaskInfo[]> GetTaskList(PageInfo? page, CancellationToken token)
     {

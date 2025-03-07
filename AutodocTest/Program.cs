@@ -1,6 +1,7 @@
 using AutodocTest.Dal;
 using AutodocTest.Services;
 
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,12 +13,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 152428800;
+});
+
 builder.Services.AddTransient<IContentTypeProvider, FileExtensionContentTypeProvider>();
 
 builder.Services
     .AddTestDbContext(builder.Configuration, "AutodocTest")
     .AddServices()
     ;
+
+builder.WebHost.ConfigureKestrel(options
+    => options.Limits.MaxRequestBodySize = 100 * 1024 * 1024);
 
 var app = builder.Build();
 

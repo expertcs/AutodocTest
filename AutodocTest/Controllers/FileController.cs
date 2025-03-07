@@ -24,16 +24,12 @@ public class FileController : ControllerBase
     [HttpPost("{taskId}")]
     public async Task<IActionResult> AddFile([FromRoute] int taskId, IFormFile formFile, CancellationToken token)
     {
-        var task = new TaskInfo { Id = taskId };
-        var fileBody = new FileBody
+        //var task = new TaskInfo { Id = taskId };
+        var fileBody = new FileData
         {
             Body = await formFile.GetBytes(token),
-            //TaskInfo = task,
-            File = new FileData
-            {
-                TaskInfo = task,
-                Name = formFile.FileName,
-            }
+            TaskInfoId = taskId,
+            Name = formFile.FileName,
         };
         return await _fileService.AddFile(fileBody, token).GetActionResult();
     }
@@ -48,7 +44,7 @@ public class FileController : ControllerBase
         var file = await _fileService.GetFile(id, token);
         if (file == null)
             return NotFound();
-        _contentTypeProvider.TryGetContentType(file.File.Name, out var contentType);
+        _contentTypeProvider.TryGetContentType(file.Name, out var contentType);
         return File(file.Body, contentType ?? "application/octet-stream");
     }
 }

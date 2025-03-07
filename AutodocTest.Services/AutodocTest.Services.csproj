@@ -10,8 +10,4 @@
     <ProjectReference Include="..\AutodocTest.Dal\AutodocTest.Dal.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Новая папка\" />
-  </ItemGroup>
-
 </Project>

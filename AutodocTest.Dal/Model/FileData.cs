@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,11 @@ namespace AutodocTest.Dal.Model;
 public class FileData : BaseEntity
 {
     [Required]
+    [JsonIgnore]
     public TaskInfo TaskInfo { get; set; } = null!;
+
+    [JsonIgnore]
+    public int TaskInfoId { get; set; }
 
     [Required]
     [StringLength(50)]
@@ -18,6 +23,7 @@ public class FileData : BaseEntity
 
     [Required]
     [Column(TypeName = "varbinary(MAX)")]
+    [JsonIgnore]
     public byte[] Body { get; set; } = null!;
 }
 
