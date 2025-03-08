@@ -4,11 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutodocTest.Dal.DataAccess;
 
-public class TestDbContext : DbContext
+public class TestDbContext(DbContextOptions options) : DbContext(options)
 {
-    public TestDbContext(DbContextOptions options) : base(options)
-    { }
-
     public DbSet<FileData> Files { get; set; }
 
     public DbSet<TaskInfo> Tasks { get; set; }

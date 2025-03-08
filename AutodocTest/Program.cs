@@ -1,7 +1,6 @@
 using AutodocTest.Dal;
 using AutodocTest.Services;
 
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,11 +11,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.Configure<FormOptions>(options =>
-{
-    options.MultipartBodyLengthLimit = 152428800;
-});
 
 builder.Services.AddTransient<IContentTypeProvider, FileExtensionContentTypeProvider>();
 

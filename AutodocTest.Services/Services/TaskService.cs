@@ -4,14 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutodocTest.Services;
 
-internal class TaskService : ITaskService
+internal class TaskService(DbContext dbContext) : ITaskService
 {
-    private readonly DbContext _dbContext;
-
-    public TaskService(DbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly DbContext _dbContext = dbContext;
 
     private IQueryable<TaskInfo> GetQuery()
         => _dbContext
